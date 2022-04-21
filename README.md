@@ -18,4 +18,5 @@ you can find it in https://github.com/Vegetebird/MHFormer  <br>
    https://www.bilibili.com/video/BV1a44y1G7Jr?spm_id_from=333.999.0.0  <br>
    https://www.bilibili.com/video/BV1JA411G7jn?spm_id_from=333.999.0.0  <br> 
    
-The project is developed based on VideoPose3d(https://github.com/facebookresearch/VideoPose3D).Combines relatively key points and trajectories to get global 3D key points，Thanks to Viedopose3d researchers.
+The project is developed based on VideoPose3d(https://github.com/facebookresearch/VideoPose3D).  <br>
+Combines relatively key points and trajectories to get global 3D key points，Thanks to Viedopose3d researchers.
