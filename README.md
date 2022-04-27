@@ -11,7 +11,7 @@ you can find it in https://github.com/Vegetebird/MHFormer  <br>
    python run.py -e 80 -k cpn_ft_h36m_dbb -arc 3,3,3,3  <br>
    python run.py -e 80 -k cpn_ft_h36m_dbb -arc 3,3,3,3,3  <br>
 
-3、camera or video  <br>
+3、run camera or video  <br>
    download checkpoints:https://drive.google.com/drive/folders/1TinLUEQ8C0hbyy0T7eMMgc-V0etz-m1s?usp=sharing  <br>
    python main.py  <br>
    
