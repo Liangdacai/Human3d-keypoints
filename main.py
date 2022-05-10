@@ -7,6 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from lib.preprocess import coco_h36m
 import numpy as np
 import argparse
+from copy import deepcopy
 
 
 l_leg = [[0,1],[1,2],[2,3]]
@@ -80,6 +81,21 @@ def wrap(func, *args, unsqueeze=False):
         return result
 
 
+def normalize_screen_coordinates(X, w, h):
+    assert X.shape[-1] == 2
+
+    # Normalize so that [0, w] is mapped to [-1, 1], while preserving the aspect ratio
+    return X / w * 2 - [1, h / w]
+
+def normalize_data(skelen,cam_w,cam_h):
+    skelen[:, 0] *= 1000 / cam_w
+    skelen[:, 1] *= 1000 / cam_h
+    # Normalize camera frame
+    skelen[..., :2] = normalize_screen_coordinates(skelen[..., :2], w=1000, h=1000)
+
+    return skelen
+
+
 
 if __name__ == "__main__":
     args = args()
@@ -146,14 +162,14 @@ if __name__ == "__main__":
         kps_pre,maxval = p23d.get_final_preds(output.clone().cpu().detach().numpy(), np.asarray([center]), np.asarray([scale]))
 
         h36m_kps,_ = coco_h36m(kps_pre)
+        show_kps = deepcopy(h36m_kps)
+        normal_kps = normalize_data(h36m_kps[0],w,h)
 
-        kps_2d.append(h36m_kps[0])
+        kps_2d.append(normal_kps)
         fps_nums = 3**(len(args.arc))+1
         if len(kps_2d) == fps_nums:
             kps_2d.pop(0)
             input_2d = np.array([kps_2d])
-            input_2d[:, :,:,0] /= w
-            input_2d[:, :,:,1] /= h
 
             input_2d = torch.from_numpy(input_2d)
             if torch.cuda.is_available():
@@ -191,13 +207,15 @@ if __name__ == "__main__":
 
 
         for i in range(17):
-            cv2.circle(frame,(int(h36m_kps[0][i][0]),int(h36m_kps[0][i][1])),2,(0,0,255),2)
+            cv2.circle(frame,(int(show_kps[0][i][0]),int(show_kps[0][i][1])),2,(0,0,255),2)
 
         for dd in draw:
             for line in dd:
-                cv2.line(frame,(int(h36m_kps[0][line[0]][0]),int(h36m_kps[0][line[0]][1])),
-                (int(h36m_kps[0][line[1]][0]),int(h36m_kps[0][line[1]][1])),(0,0,255),2)
+                cv2.line(frame,(int(show_kps[0][line[0]][0]),int(show_kps[0][line[0]][1])),
+                (int(show_kps[0][line[1]][0]),int(show_kps[0][line[1]][1])),(0,0,255),2)
 
         cv2.namedWindow("show 2d keypoints",cv2.WINDOW_AUTOSIZE)
         cv2.imshow("show 2d keypoints", frame)
         cv2.waitKey(1)
+
+
