@@ -16,7 +16,7 @@ you can find it in https://github.com/Vegetebird/MHFormer  <br>
    python main.py  <br>
    
 4、demo for camera:  <br>
-   https://www.bilibili.com/video/BV1a44y1G7Jr?spm_id_from=333.999.0.0  <br>
+   https://www.bilibili.com/video/BV18Y4y147ST?spm_id_from=333.999.0.0  <br>
    https://www.bilibili.com/video/BV1JA411G7jn?spm_id_from=333.999.0.0  <br> 
    
 The project is developed based on VideoPose3d(https://github.com/facebookresearch/VideoPose3D).  <br>
